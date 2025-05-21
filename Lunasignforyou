@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lunar Sign Compatibility Checker</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #2c3e50, #3498db);
+      color: #ecf0f1;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    header h1 {
+      font-weight: 600;
+      font-size: 2.5rem;
+      margin: 0;
+      letter-spacing: 2px;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
+    }
+    header p {
+      font-weight: 300;
+      font-size: 1.1rem;
+      margin-top: 0.5rem;
+      color: #bdc3c7cc;
+    }
+    main {
+      background: rgba(0,0,0,0.25);
+      border-radius: 12px;
+      padding: 2rem 2.5rem;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      font-size: 1rem;
+    }
+    input[type="date"] {
+      width: 100%;
+      padding: 0.6rem 1rem;
+      border-radius: 6px;
+      border: none;
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+      font-family: 'Poppins', sans-serif;
+    }
+    button {
+      background: #2980b9;
+      color: #ecf0f1;
+      font-weight: 600;
+      font-size: 1.1rem;
+      padding: 0.8rem 0;
+      border: none;
+      border-radius: 10px;
+      width: 100%;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      margin-bottom: 2rem;
+    }
+    button:hover {
+      background: #3498db;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.5);
+    }
+    #result {
+      margin-top: 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 2rem 2.5rem;
+      border-radius: 12px;
+      box-shadow: inset 0 0 25px rgba(255,255,255,0.25);
+      color: #ecf0f1;
+      display: none;
+    }
+    .sign-section {
+      margin-bottom: 2rem;
+    }
+    .sign-name {
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: #f39c12;
+      text-align: center;
+      text-shadow: 1px 1px 7px #d35400;
+      margin-bottom: 0.6rem;
+    }
+    .sign-description {
+      font-size: 1rem;
+      line-height: 1.5;
+      text-align: justify;
+      color: #ecf0f1cc;
+      white-space: pre-line;
+      user-select: text;
+    }
+    #compatibility {
+      background: rgba(0,0,0,0.15);
+      border-radius: 12px;
+      padding: 1.5rem 2rem;
+      box-shadow: inset 0 0 15px rgba(255,255,255,0.2);
+    }
+    #compatibility h2 {
+      color: #27ae60;
+      text-shadow: 1px 1px 5px rgba(0,128,0,0.8);
+      text-align: center;
+      margin-bottom: 1rem;
+      font-weight: 700;
+      font-size: 1.6rem;
+    }
+    #compatibility h3 {
+      color: #2ecc71;
+      text-align: center;
+      font-weight: 600;
+      margin: 1rem 0 0.5rem;
+      font-size: 1.3rem;
+    }
+    #advantages, #disadvantages {
+      margin-bottom: 1rem;
+    }
+    #advantages h4, #disadvantages h4 {
+      margin: 0 0 6px 0;
+      color: #a3d9a5;
+      font-weight: 600;
+      border-bottom: 1px solid #a3d9a5;
+      padding-bottom: 3px;
+    }
+    #advantages p, #disadvantages p {
+      font-weight: 300;
+      font-size: 1rem;
+      line-height: 1.4;
+      color: #c8f7c5cc;
+      margin: 0;
+      white-space: pre-line;
+      user-select: text;
+    }
+    footer {
+      margin-top: 3rem;
+      font-size: 0.9rem;
+      color: #bdc3c7cc;
+      text-align: center;
+    }
+    @media (max-width: 640px) {
+      main {
+        padding: 1.5rem 1.8rem;
+      }
+      header h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Lunar Sign Compatibility Checker</h1>
+    <p>Enter yours and your loved one's birthdays to find your moon signs and compatibility</p>
+  </header>
+  <main>
+    <label for="birthdate1">Your Date of Birth:</label>
+    <input type="date" id="birthdate1" max="" required />
+
+    <label for="birthdate2">Loved One's Date of Birth:</label>
+    <input type="date" id="birthdate2" max="" required />
+
+    <button id="checkBtn">Find Compatibility</button>
+
+    <div id="result">
+      <div class="sign-section">
+        <div class="sign-name" id="moonSign1Name"></div>
+        <div class="sign-description" id="moonSign1Desc"></div>
+      </div>
+      <div class="sign-section">
+        <div class="sign-name" id="moonSign2Name"></div>
+        <div class="sign-description" id="moonSign2Desc"></div>
+      </div>
+      <div id="compatibility" style="display:none;">
+        <h2>Compatibility Insights</h2>
+        <div id="compatMatchName"></div>
+        <div id="advantages">
+          <h4>Advantages</h4>
+          <p></p>
+        </div>
+        <div id="disadvantages">
+          <h4>Disadvantages</h4>
+          <p></p>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer>
+    &copy; 2024 Lunar Sign Compatibility App — Created with ❤️
+  </footer>
+
+  <script>
+    const moonSigns = [
+      { name: 'Aries Moon', start: '03-21', end: '04-19',
+        description: `With the Moon in Aries, your emotions are fiery and direct. You approach feelings with passion and spontaneity, often reacting quickly but sincerely. Courageous and independent, your emotional life charges ahead with enthusiasm, yet sometimes you may need to balance impulsiveness with reflection. Relationships thrive on your energetic nature and willingness to face challenges head-on.`,
+        loveMatch: 'Libra Moon',
+        matchAdvantages: `Your bold and passionate Aries Moon complements Libra Moon's grace and diplomacy. Together, you balance action with harmony, courage with charm. This dynamic can bring excitement and mutual growth, as Aries learns patience and Libra finds assertiveness.`,
+        matchDisadvantages: `Aries' impulsiveness may clash with Libra's need for balance, causing occasional frustration. Aries may find Libra's indecisiveness challenging, while Libra might feel overwhelmed by Aries' directness. Open communication is essential.` },
+      { name: 'Taurus Moon', start: '04-20', end: '05-20',
+        description: `The Taurus Moon brings emotional stability and a love for comfort and security. You are deeply sensual, enjoying the pleasures of life, and have a patient, steady emotional nature. Your feelings run deep, and you are incredibly loyal and dependable as a partner. Sometimes, you might resist change, preferring familiar rhythms and material reassurance to feel safe.`,
+        loveMatch: 'Scorpio Moon',
+        matchAdvantages: `Taurus Moon's loyalty and sensual nature harmonize well with Scorpio Moon's emotional depth and intensity. Together, they create a deeply bonding and passionate relationship filled with trust and mutual respect.`,
+        matchDisadvantages: `Taurus' stubbornness might frustrate Scorpio's desire for emotional transformation. Scorpio's intensity can sometimes feel overwhelming to Taurus. Learning to respect boundaries helps maintain balance.` },
+      { name: 'Gemini Moon', start: '05-21', end: '06-20',
+        description: `With the Moon in Gemini, your emotions are expressed through communication and curiosity. Your mind is quick, adaptable, and playful, making you emotionally versatile but sometimes restless. You enjoy variety and intellectual stimulation in relationships and tend to analyze feelings analytically rather than dwelling on them. Being able to talk about your emotions helps you process them effectively.`,
+        loveMatch: 'Sagittarius Moon',
+        matchAdvantages: `Gemini's lively curiosity and Sagittarius' adventurous spirit create a fun and ever-changing emotional connection. Together, you share a love for freedom, learning, and exploration, keeping the relationship fresh and exciting.`,
+        matchDisadvantages: `Both signs dislike feeling confined, which may lead to commitment issues or emotional distance. Their mutual restlessness can challenge stability unless they consciously nurture their bond.` },
+      { name: 'Cancer Moon', start: '06-21', end: '07-22',
+        description: `A Cancer Moon intensifies sensitivity and nurturing instincts. You feel emotions profoundly and are deeply compassionate, placing great emphasis on family and home. Your intuition is strong, and you often pick up on subtle emotional currents. While you may protect yourself with a tough exterior, inside you crave emotional security and loving connections.`,
+        loveMatch: 'Capricorn Moon',
+        matchAdvantages: `Cancer Moon's emotional warmth beautifully balances Capricorn Moon's grounded and protective nature. Together, they form a complementary team where nurturing meets structure, creating a safe and enduring home.`,
+        matchDisadvantages: `Cancer's sensitivity can sometimes feel stifled by Capricorn's reserved demeanor. Capricorn may find it challenging to express emotions freely. Patience and empathy help bridge their differences.` },
+      { name: 'Leo Moon', start: '07-23', end: '08-22',
+        description: `The Leo Moon infuses your emotional life with warmth, creativity, and a need for recognition. You express your feelings with generosity and often seek to inspire others through your enthusiasm. Proud and affectionate, you desire admiration but are also loyal and protective in relationships. Your playful and dramatic nature makes emotional experiences vibrant and heartfelt.`,
+        loveMatch: 'Aquarius Moon',
+        matchAdvantages: `Leo Moon's fiery enthusiasm and Aquarius Moon's inventive independence spark a unique and dynamic relationship. Together, you inspire creativity and balance self-expression with intellectual freedom.`,
+        matchDisadvantages: `Leo's need for attention may clash with Aquarius' detached approach. Misunderstandings can arise if Leo perceives Aquarius as emotionally distant and Aquarius finds Leo too demanding.` },
+      { name: 'Virgo Moon', start: '08-23', end: '09-22',
+        description: `With the Moon in Virgo, you approach emotional matters with analysis, caution, and a desire for order. You may have a tendency to overthink feelings and strive to improve yourself and others through practical care. Your attention to detail applies to emotional health as well, and you show love by acts of service. Though you might seem reserved, your loyalty is steady and genuine.`,
+        loveMatch: 'Taurus Moon',
+        matchAdvantages: `Virgo and Taurus Moons share a grounded approach to emotions, valuing stability, loyalty, and practical support. This pairing creates a calm, dependable partnership with a deep understanding of each other's needs.`,
+        matchDisadvantages: `Both may struggle to openly express emotions, leading to unspoken expectations or misunderstandings. Their perfectionist tendencies could cause occasional friction if not managed sensitively.` },
+      { name: 'Libra Moon', start: '09-23', end: '10-22',
+        description: `The Libra Moon seeks harmony and balance in the emotional realm. You have a graceful, diplomatic approach to feelings, aiming to avoid conflict and maintain peace. Relationship-oriented, you value connection, fairness, and partnership deeply. Your charm and kindness help you navigate social settings effortlessly, but you may sometimes suppress emotions to keep tranquility.`,
+        loveMatch: 'Aries Moon',
+        matchAdvantages: `Libra's need for harmony beautifully complements Aries' fiery passion, creating balance between action and diplomacy. Their relationship is full of mutual growth, excitement, and respect.`,
+        matchDisadvantages: `Libra's tendency to avoid conflict may frustrate direct Aries, and Aries' impulsiveness can disturb Libra's peace. Open, honest communication is key to resolving their differences.` },
+      { name: 'Scorpio Moon', start: '10-23', end: '11-21',
+        description: `A Scorpio Moon intensifies emotions and adds a layer of mystery and depth. You experience feelings with great passion and intensity, often in a transformative and private way. Your emotional resilience is strong, but you may struggle with trust and vulnerability. When you love, it is deeply and fiercely, often with a need for emotional truth and authenticity.`,
+        loveMatch: 'Taurus Moon',
+        matchAdvantages: `Scorpio and Taurus Moons share a magnetic and deeply emotional connection. Their relationship is built on loyalty, trust, and a profound emotional bond that withstands trials.`,
+        matchDisadvantages: `Both signs have strong wills that can lead to power struggles. Scorpio's intensity sometimes overwhelms Taurus, while Taurus’ stubbornness may frustrate Scorpio.` },
+      { name: 'Sagittarius Moon', start: '11-22', end: '12-21',
+        description: `With the Moon in Sagittarius, your emotions are fueled by optimism, adventure, and a love for freedom. You seek joy and meaning in life, often expressing feelings with enthusiasm and an open heart. You prefer to view emotions through a philosophical lens and enjoy exploring new ideas and cultures. Your emotional honesty is refreshing and inspiring.`,
+        loveMatch: 'Gemini Moon',
+        matchAdvantages: `Sagittarius and Gemini Moons bring vitality, curiosity, and zest for life to their relationship. Both love freedom and new experiences, fostering a playful and adventurous bond.`,
+        matchDisadvantages: `Mutual restlessness can cause challenges for commitment and depth. They must consciously work on emotional grounding to maintain stability.` },
+      { name: 'Capricorn Moon', start: '12-22', end: '01-19',
+        description: `The Capricorn Moon gives emotional strength, discipline, and a pragmatic approach to feelings. You tend to keep emotions under control and may appear reserved or serious. Responsible and ambitious, you show care through action and reliability, often focusing on long-term security. While sometimes distant, your loyalty and dedication run deep.`,
+        loveMatch: 'Cancer Moon',
+        matchAdvantages: `Capricorn Moon's stability pairs well with Cancer Moon's nurturing warmth. Their differences create a complementary relationship where practical goals meet emotional care, forming a strong foundation.`,
+        matchDisadvantages: `Capricorn may appear unemotional to sensitive Cancer, while Cancer's moodiness might confuse Capricorn. Mutual patience and understanding are essential.` },
+      { name: 'Aquarius Moon', start: '01-20', end: '02-18',
+        description: `With the Moon in Aquarius, your emotional expression is unconventional, intellectual, and sometimes detached. You value independence and originality in feelings, often approaching emotions objectively. You are caring in a broad, humanitarian way and enjoy connecting through ideas and friendship. Your unique perspective offers fresh insight into emotional matters.`,
+        loveMatch: 'Leo Moon',
+        matchAdvantages: `Aquarius and Leo Moons create a vibrant and dynamic partnership that balances Leo’s warmth with Aquarius’ intellectual independence. Their relationship is often filled with creativity and mutual respect.`,
+        matchDisadvantages: `Leo’s need for attention may clash with Aquarius’ aloofness. Aquarius may find Leo too demanding emotionally, requiring compromise on both sides.` },
+      { name: 'Pisces Moon', start: '02-19', end: '03-20',
+        description: `A Pisces Moon blesses you with deep empathy, intuition, and a dreamy emotional nature. You feel the world vividly through your heart and are often drawn to artistic or spiritual pursuits. Compassionate and selfless, you absorb others’ feelings and may need boundaries to avoid emotional overwhelm. Your imagination and sensitivity enrich your emotional landscape.`,
+        loveMatch: 'Virgo Moon',
+        matchAdvantages: `Pisces Moon's sensitivity harmonizes with Virgo Moon's practical care, making a gentle and supportive love match. Together, they balance dreams and reality with kindness and attentiveness.`,
+        matchDisadvantages: `Pisces’ emotional fluidity might overwhelm Virgo’s need for order. Virgo’s criticism can sometimes hurt sensitive Pisces. Patience and gentle communication help maintain harmony.` }
+    ];
+
+    const birthdateInput1 = document.getElementById('birthdate1');
+    const birthdateInput2 = document.getElementById('birthdate2');
+    const checkBtn = document.getElementById('checkBtn');
+
+    const resultSection = document.getElementById('result');
+    const moonSign1Name = document.getElementById('moonSign1Name');
+    const moonSign1Desc = document.getElementById('moonSign1Desc');
+    const moonSign2Name = document.getElementById('moonSign2Name');
+    const moonSign2Desc = document.getElementById('moonSign2Desc');
+
+    const compatibilitySection = document.getElementById('compatibility');
+    const compatMatchName = document.getElementById('compatMatchName');
+    const advantages = document.querySelector('#advantages p');
+    const disadvantages = document.querySelector('#disadvantages p');
+
+    // Limit max date to today for both inputs
+    const todayStr = new Date().toISOString().split('T')[0];
+    birthdateInput1.max = todayStr;
+    birthdateInput2.max = todayStr;
+
+    function parseMonthDay(str) {
+      const [m, d] = str.split('-').map(Number);
+      return { month: m, day: d };
+    }
+
+    function isDateInRange(month, day, start, end) {
+      if (start.month > end.month) {
+        if ((month > start.month) || (month === start.month && day >= start.day)) return true;
+        if ((month < end.month) || (month === end.month && day <= end.day)) return true;
+        return false;
+      }
+      if ((month > start.month || (month === start.month && day >= start.day)) &&
+          (month < end.month || (month === end.month && day <= end.day))) {
+        return true;
+      }
+      return false;
+    }
+
+    function findMoonSign(dateStr) {
+      const dateObj = new Date(dateStr);
+      const month = dateObj.getMonth() + 1;
+      const day = dateObj.getDate();
+
+      for (const sign of moonSigns) {
+        const start = parseMonthDay(sign.start);
+        const end = parseMonthDay(sign.end);
+        if (isDateInRange(month, day, start, end)) {
+          return sign;
+        }
+      }
+      return moonSigns.find(s => s.name === 'Capricorn Moon');
+    }
+
+    // Find compatibility entry given two moon sign names
+    function getCompatibility(sign1, sign2) {
+      // Direct match if sign2 is sign1's loveMatch OR vice versa
+      const sign1Obj = moonSigns.find(s => s.name === sign1);
+      const sign2Obj = moonSigns.find(s => s.name === sign2);
+
+      if (!sign1Obj || !sign2Obj) return null;
+
+      if (sign1Obj.loveMatch === sign2Obj.name) {
+        return {
+          name: `${sign1Obj.name} & ${sign2Obj.name}`,
+          advantages: sign1Obj.matchAdvantages,
+          disadvantages: sign1Obj.matchDisadvantages
+        };
+      }
+      if (sign2Obj.loveMatch === sign1Obj.name) {
+        return {
+          name: `${sign2Obj.name} & ${sign1Obj.name}`,
+          advantages: sign2Obj.matchAdvantages,
+          disadvantages: sign2Obj.matchDisadvantages
+        };
+      }
+      // No direct compatible match found
+      return null;
+    }
+
+    checkBtn.addEventListener('click', () => {
+      const date1 = birthdateInput1.value;
+      const date2 = birthdateInput2.value;
+      if (!date1 || !date2) {
+        alert('Please select both dates of birth.');
+        return;
+      }
+
+      const sign1 = findMoonSign(date1);
+      const sign2 = findMoonSign(date2);
+
+      moonSign1Name.textContent = `Your Moon Sign: ${sign1.name}`;
+      moonSign1Desc.textContent = sign1.description;
+
+      moonSign2Name.textContent = `Loved One's Moon Sign: ${sign2.name}`;
+      moonSign2Desc.textContent = sign2.description;
+
+      const compatibility = getCompatibility(sign1.name, sign2.name);
+
+      if (compatibility) {
+        compatibilitySection.style.display = 'block';
+        compatMatchName.textContent = compatibility.name;
+        advantages.textContent = compatibility.advantages;
+        disadvantages.textContent = compatibility.disadvantages;
+      } else {
+        compatibilitySection.style.display = 'block';
+        compatMatchName.textContent = `Compatibility not found for ${sign1.name} & ${sign2.name}`;
+        advantages.textContent = 'This pairing is unique and requires understanding and care. Remember, true compatibility depends on communication and willingness to grow together!';
+        disadvantages.textContent = 'Without a typical compatibility pattern, be mindful of potential misunderstandings and differences in emotional expression. Openness and patience are key.';
+      }
+
+      resultSection.style.display = 'block';
+      resultSection.scrollIntoView({ behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>
